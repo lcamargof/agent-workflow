@@ -1,27 +1,29 @@
-# llm-workflow
+# agent-workflow
 
-A portable, agent-agnostic AI-collaboration kit: the workflow loop, wiki-based project memory, risk-routed review, and code standards — extracted from a real production codebase and dieted down to what agents actually follow under pressure.
+A workflow kit for coding agents: a handful of skills, three small scripts, and a wiki convention for project memory. Works with anything that reads markdown.
 
-## Why this exists
+The goal is boring on purpose: code that stays easy to review and easy to replace, no matter who or what wrote it.
 
-Getting LLMs to write code is not the problem anymore. The problem is what all that code does to a codebase: duplicated business logic, abstractions over abstractions, diffs that pass every check while quietly changing the shape of the project.
+## Why
 
-The bet behind this kit: codebases have to move toward smaller pieces with explicit boundaries. Some pieces are load-bearing — money math, protocol logic, trust boundaries — those get hard boundaries, forced review lenses, and sometimes hand-written code. The rest should be cheap to replace: verify the behavior, ship it, burn and rewrite it when requirements change. The kit's job is to keep that split honest.
+Getting agents to write code is not the problem. The problem is the codebase three months later: duplicated business logic, abstractions on top of abstractions, diffs that pass every check while quietly changing the shape of the project.
 
-So it optimizes generated code for three properties: easy to review, easy to replace, hard to let break unrelated parts of the product. Not autonomy. Not velocity. Those take care of themselves when review stops being the bottleneck.
+My bet is that codebases need to break into smaller pieces with explicit boundaries. Some pieces are load-bearing (money math, protocol logic, trust boundaries). Those get hard boundaries, forced review, sometimes hand-written code. The rest should be cheap to burn: verify the behavior, ship it, rewrite it when requirements change.
+
+This kit keeps that split honest. It doesn't chase autonomy or velocity. Those show up on their own once review stops being the bottleneck.
 
 ## Philosophy
 
-- **Behavioral skills are the value; scripts are minimal support.** Heavy gates get routed around — that's a measured result, not a theory. Every gate here is small enough to obey.
-- **The dumb solution wins.** Zero dependencies, plain markdown, one JSON config.
-- **Evidence over trust.** No completion claims without fresh verification; reviewer output is verified before it's believed; a skipped review is recorded as skipped, not passed.
-- **The wiki compounds.** Project knowledge lives in `docs/wiki/` (Karpathy LLM-Wiki style: interlinked pages, ingest/query/lint). Agents maintain it at every closeout so future agents load less and assume less.
+- Skills are the value, scripts are support. Heavy gates get routed around (measured that, it's not a theory), so every gate here is small enough to obey.
+- The dumb solution wins. Zero dependencies, plain markdown, one JSON config.
+- Evidence over trust. No completion claims without fresh verification. Reviewer output gets checked before it's believed. A skipped review is recorded as skipped, not passed.
+- The wiki compounds. Project knowledge lives in `docs/wiki/` (Karpathy LLM-Wiki style: interlinked pages, ingest/query/lint). Agents update it at every closeout so future agents load less and assume less.
 
 ## In production
 
-The kit wasn't designed on a whiteboard; it was extracted from the workflow used on [Register](https://github.com/reserve-protocol/register), Reserve's main application — a five-year-old, ~200k-LOC TypeScript codebase where the code moves real money across multiple chains and protocol versions. Register is also the first brownfield adoption (via `skills/adopt.md`), which is where most of the honest lessons in the backlog came from.
+This wasn't designed on a whiteboard. It's the workflow behind [Register](https://github.com/reserve-protocol/register), Reserve's main app: five years old, ~200k lines of TypeScript, moves real money across multiple chains and protocol versions. Register was also the first brownfield adoption, and most of the backlog below comes from that.
 
-This is one engineer's workflow, working and evolving — not a solved methodology and not a framework asking for stars. If a rule in here seems arbitrary, it's probably a scar.
+One engineer's workflow, working and evolving. If a rule seems arbitrary, it's probably a scar.
 
 ## Install
 
@@ -37,7 +39,7 @@ Fresh install scaffolds `AGENTS.md`, `CLAUDE.md`, `llm-workflow.config.json`, an
 
 Ownership: the kit owns `skills/` and `scripts/llm-workflow/` (replaced wholesale on `--update`). Everything else is yours and never touched after scaffolding.
 
-**Existing repos**: if the repo already has agent context (CLAUDE.md, AGENTS.md, .cursorrules…), the installer detects it and points at `skills/adopt.md` — a non-destructive merge procedure where the repo's existing rules win on conflict and every rule ends up in the wiki, the config, an override note, or an explicit drop log. Glob note: `*` stays within a path segment; use `**` to cross directories (`**/storage/**`, not `**/*storage*`).
+**Existing repos**: if the repo already has agent context (CLAUDE.md, AGENTS.md, .cursorrules…), the installer detects it and points at `skills/adopt.md`, a non-destructive merge where the repo's existing rules win on conflict and every rule ends up in the wiki, the config, an override note, or an explicit drop log. Glob note: `*` stays within a path segment; use `**` to cross directories (`**/storage/**`, not `**/*storage*`).
 
 ## For agents
 
@@ -73,6 +75,7 @@ The kit is done when, measured not vibed: adoption of a fresh repo is one instal
 
 ## Backlog
 
+- The internals still say `llm-workflow` (`llm-workflow.config.json`, `scripts/llm-workflow/`). Renaming them breaks every adopted repo, so it waits for a major version.
 - `skills/` at target-repo root is a namespace grab in product repos; a `.llm-workflow/` layout is a breaking change (installer + router + adopted repos) — revisit at a major version.
 - `workflow-start.mjs` and `scope.mjs` have no tests (core, wiki-lint, install, purity are covered).
 - Page-length wiki-lint check and per-page drift overrides deliberately not built — no observed failure yet (first adoption's max page: 69 body lines); revisit if a page actually blows past ~100 lines or a drift alarm false-fires in practice.
