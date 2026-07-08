@@ -4,7 +4,7 @@ import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { test } from "node:test";
 
-import { globToRegExp, matchesAny, scanRedFlags } from "../scripts/lib/core.mjs";
+import { computeTierHint, globToRegExp, matchesAny, scanRedFlags } from "../scripts/lib/core.mjs";
 
 test("glob: ** crosses segments", () => {
   assert.ok(globToRegExp("src/**").test("src/a/b/c.ts"));
@@ -64,4 +64,29 @@ test("scanRedFlags catches multi-line empty catch and reports its line", () => {
   } finally {
     rmSync(root, { recursive: true, force: true });
   }
+});
+
+test("computeTierHint: narrow low-risk diff has no signals on either axis", () => {
+  const hint = computeTierHint(["src/views/a.tsx"], ["correctness", "product"]);
+  assert.equal(hint.profile, "low");
+  assert.deepEqual(hint.radius, []);
+  assert.deepEqual(hint.size, []);
+});
+
+test("computeTierHint: risk lenses are radius signals — small risky diffs profile medium", () => {
+  assert.equal(computeTierHint(["src/auth/a.ts"], ["correctness", "security"]).profile, "medium");
+  const hint = computeTierHint(["scripts/x.mjs"], ["correctness", "complexity"]);
+  assert.equal(hint.profile, "medium");
+  assert.ok(hint.radius[0].includes("complexity"));
+  assert.deepEqual(hint.size, []);
+});
+
+test("computeTierHint: file count is a size signal; radius + size profiles high", () => {
+  const files = ["a", "b", "c", "d", "e", "f"];
+  const wideOnly = computeTierHint(files, ["correctness"]);
+  assert.equal(wideOnly.profile, "medium");
+  assert.deepEqual(wideOnly.size, ["6 files"]);
+  assert.deepEqual(wideOnly.radius, []);
+  assert.equal(computeTierHint(files.slice(0, 5), ["correctness"]).profile, "low");
+  assert.equal(computeTierHint(files, ["correctness", "security"]).profile, "high");
 });

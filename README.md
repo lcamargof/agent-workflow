@@ -55,12 +55,19 @@ From then on the router owns every session — this README is only for installin
 ## The loop
 
 ```
-workflow-start --stage "<name>"     # clean tree + ledger row + base ref
+calibrate: radius × size            # radius buys review, size buys ceremony — scope.mjs prints the signals
+touch-up / low:  scoped verify + self-review through the fired lenses, done
+medium:          wide radius, modest size — ONE stage: spawned review + full gate + one row
+high:            multi-phase or cross-package — plan → stages, whole-feature review at the end
+stage mechanics (medium & high):
+  workflow-start --stage "<name>"   # clean tree + ledger row + base ref
   implement smallest slice
-  scope.mjs --base <ref>            # touched files → verify commands + review lenses + red flags
-  review through required lenses    # verify claims before accepting
-closeout: full gate + visual check (UI) + progress row + wiki ingest + wiki-lint
+  scope.mjs --base <ref>            # touched files → verify commands + review lenses + red flags + tier hint
+  review through required lenses    # spawned reviewers; verify claims before accepting
+  closeout: full gate (or gate-equivalent final scoped run) + visual check (UI) + progress row + wiki ingest + wiki-lint
 ```
+
+Blast radius and work size are independent axes: a one-line fix in shared machinery is small work with a wide radius (heavy review, light ceremony); a four-phase feature inside one domain is the reverse. `skills/workflow.md` § Calibrate: Radius × Size owns the boundaries; when debating two profiles, take the heavier one.
 
 ## Layout
 

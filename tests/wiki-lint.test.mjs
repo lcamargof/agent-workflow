@@ -97,3 +97,24 @@ test("domain page without sources fails", () => {
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test("ledger rows over the char cap fail; short rows and non-ledger pages pass", () => {
+  const longRow = `| big stage | done | ${"x".repeat(700)} | review | next |`;
+  const dir = fixtureRepo({
+    ...VALID,
+    "progress.md": page(
+      { title: "Progress", updated: "2026-07-01", type: "ledger" },
+      `| Stage | Status | Verifier | Review | Next |\n|---|---|---|---|---|\n| small | done | green | self | — |\n${longRow}`,
+    ),
+    "index.md": page({ title: "Index", updated: "2026-07-01", type: "ledger" }, "- [[project]]\n- [[log]]\n- [[progress]]"),
+    "log.md": page({ title: "Log", updated: "2026-07-01", type: "log" }, `## 2026-07-01\n- ${"y".repeat(800)}`),
+  });
+  try {
+    const result = lint(dir);
+    assert.equal(result.code, 1);
+    assert.match(result.out, /ledger row is 7\d\d chars \(limit 700\)/);
+    assert.ok(!/log\.md.*chars/.test(result.out), "log page must not be row-capped");
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
