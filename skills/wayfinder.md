@@ -41,7 +41,7 @@ Charting is one session and resolves no tickets.
 4. **Create the map** using the body below. Record already-settled conversation decisions as concise links only after they have their own resolved ticket; until then keep the map's Decisions so far empty.
 5. **Create only sharp tickets.** A question is a ticket when it can be stated precisely now, even if blocked. Keep suspected but unformulable questions in Not yet specified.
 6. **Wire blockers after ticket creation.** Ticket identities must exist before edges can be recorded.
-7. **Schedule research economically.** Research tickets may use background agents only when `FINAL_WORKFLOW.md` topology and usage posture allow it; otherwise leave them on the frontier for sequential resolution.
+7. **Schedule research economically.** Research tickets may use background agents only when `skills/topology.md` admission and the usage posture allow it; otherwise leave them on the frontier for sequential resolution.
 8. **Stop.** Report the map, frontier, blocked tickets, and fog. Do not hand-resolve a ticket during charting.
 
 Map body:

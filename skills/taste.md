@@ -30,15 +30,13 @@ break one on purpose, never by inertia:
 
 ## Render audit (before "done")
 
-Judge the rendered surface with realistic data, not the empty state (see `skills/testing.md`
-— test the state the user is in). Check:
+Judge the rendered surface with realistic data, not the empty state. `skills/ui-ux.md` owns the
+mechanical checks — interaction states, empty/loading/error states, WCAG contrast, overflow at
+real content lengths — run those. The taste-specific layer on top:
 
-- Every interactive element has hover / active / focus-visible states.
-- Empty, loading (layout-shaped skeleton, not a spinner), and error states exist and are composed.
-- Text and controls pass WCAG AA against their **actual** background, both themes.
 - One accent per screen; one radius system; consistent icon stroke width.
-- Real content lengths: long names, overflow, dense lists — nothing clips or reflows badly.
 - Spacing has rhythm (a scale, not arbitrary pixels); optical alignment, not just geometric.
+- Nothing renders as the default the model reaches for by inertia (see the tells above).
 
 Fix priority when auditing an existing surface: type → color cleanup → states → spacing →
 component structure. Cheap high-impact first.

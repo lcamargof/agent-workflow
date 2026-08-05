@@ -48,7 +48,7 @@ Keep it compact in the active progress note. Ask the human only when an unresolv
 
 ## Topology Gate
 
-**One implementation agent is the default.** Load `skills/topology.md` only for parallel-looking work, competing candidates, or a requested agent count. Fan-out requires at least two substantive packets that can progress now, low overlap and shared-state coupling, stable cut edges, enough work to repay fresh context, meaningful wall-clock benefit, a posture that permits the spend, and convergence plus verification cheaper than sequential work. If one answer is unclear, stay single-agent. A requested count authorizes Burst spend, not skipped proof or trust gates.
+**One implementation agent is the default.** Load `skills/topology.md` only for parallel-looking work, competing candidates, or a requested agent count — it owns the fan-out admission criteria (substantive independent packets, low overlap, stable cut edges, enough work, real speedup, permitted posture, cheap convergence). If one answer is unclear, stay single-agent. A requested count authorizes Burst spend, not skipped proof or trust gates.
 
 ## Feedback Branches
 
