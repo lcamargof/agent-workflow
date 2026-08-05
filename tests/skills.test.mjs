@@ -44,14 +44,19 @@ test("pair skills share a bounded, failure-safe review protocol", () => {
   const worker = read("skills/pair-reviewer.md");
   const router = read("templates/AGENTS.md");
 
-  for (const state of ["IDLE", "REVIEWED", "READ", "REPLIED", "LGTM", "ORPHANED"]) {
+  for (const state of ["IDLE", "REVIEWED", "READ", "REPLIED", "LGTM"]) {
     assert.match(protocol, new RegExp(`\\b${state}\\b`));
   }
+  // Heartbeats, liveness probes, and the ORPHANED state were removed as net-negative
+  // (false alarms, zero true detections). Safety is now structural: only the reviewer
+  // writes LGTM, so a silent peer cannot produce approval — no timer required.
+  assert.match(protocol, /no heartbeats, timeouts, or liveness probes/);
+  assert.match(protocol, /Wake on events, not on a clock/);
   assert.match(protocol, /Any code change after the recorded snapshot invalidates a prospective `LGTM`/);
-  assert.match(protocol, /silence is never consent|never becomes `LGTM`/);
+  assert.match(protocol, /Silence is not consent here by construction|never becomes `LGTM`/);
   assert.match(reviewer, /Do not edit implementation or tests/);
-  assert.match(worker, /replace it at most once/);
-  assert.match(worker, /Never convert a two-minute timeout into approval/);
+  assert.match(worker, /Do not spawn a polling sentinel/);
+  assert.match(worker, /`LGTM` is the reviewer's to write/);
   assert.match(router, /reviewer loads `skills\/pair\.md`; implementation owner loads `skills\/pair-reviewer\.md`/);
 });
 

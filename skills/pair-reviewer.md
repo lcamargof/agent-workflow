@@ -6,9 +6,9 @@ Read `skills/pair-protocol.md` first.
 
 ## Start the Inbox
 
-1. Resolve or create the matching pair session and publish the exact artifact path, task contract, fixed point, active slice, and worker heartbeat.
-2. If subagents are available and authorized, spawn one inexpensive, fast sentinel (Sonnet-class or the fastest competent available model). Give it only the protocol path, artifact path, repository root, and fixed point. Its job is to poll at intervals no longer than 60 seconds and notify you on `REVIEWED`, `LGTM`, `ORPHANED`, malformed/stale state, or a liveness deadline. It must not edit code or the artifact.
-3. If the sentinel exits unexpectedly, replace it at most once. After a second failure—or when subagents are unavailable—poll the artifact directly at coherent work boundaries. Never represent an unavailable sentinel as completed review.
+1. Resolve or create the matching pair session and publish the exact artifact path, task contract, fixed point, and active slice.
+2. Do not spawn a polling sentinel. Message the reviewer directly when a slice lands, and let it message you when a round is published — a ping fires exactly when there is something to act on, where a poll fires mostly when there is not. Repeated notifications restating an unchanged state cost the user real tokens and teach both roles to skim.
+3. If direct messaging is unavailable, read the artifact yourself at coherent work boundaries instead — never represent an unread review as completed review.
 
 ## Consume a Review Round
 
@@ -22,5 +22,4 @@ At the next safe boundary, or immediately for a Critical finding:
 
 Continue primary work when the reviewer returns the session to `IDLE`. Before declaring implementation complete, set `work_status: DONE`, publish final verification evidence, and stop changing code while the reviewer checks the final snapshot. Any later edit returns work to `ACTIVE` and invalidates the prior snapshot.
 
-Stop the sentinel when the artifact reaches `LGTM`, `ORPHANED`, or the user cancels. `LGTM` closes the pair loop. `ORPHANED` closes only the watcher: report the surviving implementation and verification state as review-pending, then follow the repository's normal completion policy. Never convert a two-minute timeout into approval.
-
+`LGTM` closes the pair loop. If the reviewer is unresponsive and you must finish, report the implementation and verification state as review-pending and follow the repository's normal completion policy. Never treat silence as approval — and note that you cannot: `LGTM` is the reviewer's to write.
