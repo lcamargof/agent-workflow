@@ -2,7 +2,7 @@
 
 > A capsule is a replaceable module whose **context boundary, code boundary, behavioral contract, and verification boundary** are all explicit and mechanically checked.
 
-Status: **superseded in part.** The converged, binding decision is `FINAL_WORKFLOW.md` (repo root, frozen 2026-07-24) + `CONSENSUS-2026-07-24.md` in this folder; `design.md` and `pilot.md` below are stale where they conflict (reconciliation lands before Stage 1). This folder remains the rationale and evidence base. Nothing here is built yet. This folder is the complete written state of the idea so any agent (any model) or human can pick it up cold, challenge it, and extend it. That is deliberate: this gets nailed down multi-agent + human, and cross-model review only works if everything is on paper.
+Status: **IN PROGRESS — not shipped in the kit.** This folder is the capsule's in-progress home: the skill (`capsule-skill.md`), the MVP plan (`capsule-mvp.md`), the design/rationale/evidence base, and the converged decision (`CONSENSUS-2026-07-24.md` here, `../history/FINAL_WORKFLOW.md` §7 for the frozen call). Capsules are **being piloted on the Chatty project** to test whether they are effective before any kit-wide adoption — see that repo's wiki effectiveness evaluation. `design.md` and `pilot.md` are stale where they conflict with the consensus. This folder is the complete written state so any agent or human can pick it up cold, challenge it, and extend it.
 
 ## The thesis
 
