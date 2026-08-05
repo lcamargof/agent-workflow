@@ -5,17 +5,16 @@ Loader only. Kit behavior lives in `skills/`; project truth and overrides live i
 ## Load
 
 - Code work: `skills/workflow.md`, `skills/code-standards.md`, `docs/wiki/project.md`.
-- Bug/failure/flake/regression: `skills/debugging.md`; load `skills/testing.md` before the fix when a viable test seam exists.
-- Non-trivial behavior: `skills/testing.md` before implementation.
-- High or multi-session work: `skills/planning.md` after calibration.
-- UI: `skills/ui-ux.md`; token-system changes also load `skills/design.md`.
-- Tooling/new project surface: `skills/stack.md`.
-- Requested or evidence-triggered structural improvement: `skills/architecture-review.md`.
-- Stage closeout: `skills/review-panel.md`, then `skills/wiki.md`.
-- Major workload end: `skills/self-improve.md`.
-- Skill/routing edits: `skills/writing-great-skills.md`.
-- Live two-agent pairing: reviewer loads `skills/pair.md`; implementation owner loads `skills/pair-reviewer.md`.
-- Workflow refresh request ("refresh workflow"): `skills/re-conciliate.md`.
+- Bug/flake/regression: `skills/debugging.md`; `skills/testing.md` before a fix with a seam or any changed non-trivial behavior.
+- High work: unclear route → `skills/wayfinder.md` then `skills/planning.md`; clear → planning directly.
+- Consequential experience/public-seam/ownership/persistence choice: `skills/experience-design.md` before planning.
+- Parallel work, competing candidates, or a requested agent count: `skills/topology.md`; authority assignment adds `skills/model-capabilities.md`.
+- Missing real-surface proof: `skills/create-verification.md`; drifted proof: `skills/maintain-verification.md`.
+- Uncertain/misfiring workflow change: `skills/evaluate-workflow.md`. Promotion/deploy/publish: `skills/release-evidence.md`. Pause/resume: `skills/resume-work.md`.
+- UI: `skills/ui-ux.md`; distinctive direction or AI-slop risk adds `skills/taste.md`; token changes add `skills/design.md`. Tooling/new surface: `skills/stack.md`.
+- Structural improvement: `skills/architecture-review.md`. Closeout: `skills/review-panel.md` then `skills/wiki.md`; major end: `skills/self-improve.md`.
+- Skill/routing edits: `skills/writing-great-skills.md`. Refresh request: `skills/re-conciliate.md`.
+- Live pairing: reviewer loads `skills/pair.md`; implementation owner loads `skills/pair-reviewer.md`.
 
 Start project exploration at `docs/wiki/index.md`; follow relevant links instead of loading every page.
 
