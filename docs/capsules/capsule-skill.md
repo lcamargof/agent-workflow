@@ -1,6 +1,6 @@
 # Capsule Skill
 
-> **IN PROGRESS — not an active kit skill.** Capsules are being piloted on the Chatty project (see that repo's wiki effectiveness evaluation), not shipped in the kit. The converged decision is `../history/FINAL_WORKFLOW.md` §7 (frozen 2026-07-24) with `./CONSENSUS-2026-07-24.md` for rationale. Several rules below are stale (computed versions, in-file signed blocks, contract-first everywhere). This file is rewritten last in the pre-Stage-1 reconciliation; until then capsule behavior comes from FINAL_WORKFLOW only.
+> **IN PROGRESS — not an active kit skill.** Capsules are being piloted on the Chatty project (see that repo's wiki effectiveness evaluation), not shipped in the kit. The binding definition is `./SPEC.md` (frozen 2026-07-24) with `./CONSENSUS-2026-07-24.md` for rationale. Several rules below are stale (computed versions, in-file signed blocks, contract-first everywhere). This file is rewritten last in the pre-Stage-1 reconciliation; until then capsule behavior comes from `SPEC.md` only.
 
 Use this when creating a capsule, working inside one (a directory containing `CONTRACT.md`), or changing any capsule's contract. Skip for repos/directories without capsules and for pure platform-kernel work (that's max-radius by definition — treat as high profile in `workflow.md`).
 
