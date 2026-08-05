@@ -1,5 +1,7 @@
 # Capsule Skill
 
+> **SUPERSEDED — do not load this skill's rules.** The converged decision is `FINAL_WORKFLOW.md` §7 (kit repo, frozen 2026-07-24) with `docs/capsules/CONSENSUS-2026-07-24.md` for rationale. Several rules below are stale (computed versions, in-file signed blocks, contract-first everywhere). This file is rewritten last in the pre-Stage-1 reconciliation; until then capsule behavior comes from FINAL_WORKFLOW only.
+
 Use this when creating a capsule, working inside one (a directory containing `CONTRACT.md`), or changing any capsule's contract. Skip for repos/directories without capsules and for pure platform-kernel work (that's max-radius by definition — treat as high profile in `workflow.md`).
 
 Status: design-phase. Tooling (`capsule-lint`, graph check) is not built yet; until it lands, every "run X" step below is performed manually and its result recorded. Behavioral confidence: unproven — no live-agent pressure scenario has run. Reference design: `docs/capsules/design.md` (kit repo); do not restate it here — this file owns behavior, that file owns rationale.

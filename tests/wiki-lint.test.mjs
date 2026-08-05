@@ -118,3 +118,44 @@ test("ledger rows over the char cap fail; short rows and non-ledger pages pass",
     rmSync(dir, { recursive: true, force: true });
   }
 });
+
+test("union-merge duplicates fail for ledger rows, index links, and decision headings", () => {
+  const dir = fixtureRepo({
+    ...VALID,
+    "index.md": page(
+      { title: "Index", updated: "2026-07-01", type: "ledger" },
+      "- [[project]]\n- [[log]]\n- [[progress]]\n- [[decisions]]\n- [[progress]]",
+    ),
+    "progress.md": page(
+      { title: "Progress", updated: "2026-07-01", type: "ledger" },
+      "| Stage | Status |\n|---|---|\n| release | active |\n| release | done |",
+    ),
+    "decisions.md": page(
+      { title: "Decisions", updated: "2026-07-01", type: "decision" },
+      "## 2026-07-01 — Release\nFirst.\n\n## 2026-07-01 — Release\nSecond.",
+    ),
+  });
+  try {
+    const result = lint(dir);
+    assert.equal(result.code, 1);
+    assert.match(result.out, /duplicate ledger row key "release"/);
+    assert.match(result.out, /duplicate index link \[\[progress\]\]/);
+    assert.match(result.out, /duplicate decision heading "2026-07-01 — Release"/);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});
+
+test("duplicate frontmatter keys fail (union-merge artifact)", () => {
+  const dir = fixtureRepo({
+    ...VALID,
+    "project.md": `---\ntitle: Project\nupdated: 2026-07-10\nupdated: 2026-07-11\ntype: context\n---\n\nSee [[log]].\n`,
+  });
+  try {
+    const result = lint(dir);
+    assert.equal(result.code, 1);
+    assert.match(result.out, /project\.md: duplicate frontmatter key "updated"/);
+  } finally {
+    rmSync(dir, { recursive: true, force: true });
+  }
+});

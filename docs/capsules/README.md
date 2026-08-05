@@ -2,7 +2,7 @@
 
 > A capsule is a replaceable module whose **context boundary, code boundary, behavioral contract, and verification boundary** are all explicit and mechanically checked.
 
-Status: design phase. Nothing here is built yet. This folder is the complete written state of the idea so any agent (any model) or human can pick it up cold, challenge it, and extend it. That is deliberate: this gets nailed down multi-agent + human, and cross-model review only works if everything is on paper.
+Status: **superseded in part.** The converged, binding decision is `FINAL_WORKFLOW.md` (repo root, frozen 2026-07-24) + `CONSENSUS-2026-07-24.md` in this folder; `design.md` and `pilot.md` below are stale where they conflict (reconciliation lands before Stage 1). This folder remains the rationale and evidence base. Nothing here is built yet. This folder is the complete written state of the idea so any agent (any model) or human can pick it up cold, challenge it, and extend it. That is deliberate: this gets nailed down multi-agent + human, and cross-model review only works if everything is on paper.
 
 ## The thesis
 

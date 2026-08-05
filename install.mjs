@@ -65,6 +65,12 @@ if (!existsSync(join(target, "docs/wiki"))) {
 } else if (!isUpdate) {
   console.log("skip: docs/wiki already exists");
 }
+ensureAttributeRules(join(target, ".gitattributes"), [
+  "docs/wiki/log.md merge=union",
+  "docs/wiki/decisions.md merge=union",
+  "docs/wiki/progress.md merge=union",
+  "docs/wiki/index.md merge=union",
+]);
 
 if (isUpdate) {
   const configPath = join(target, "llm-workflow.config.json");
@@ -138,4 +144,23 @@ function scaffold(sourceRelative, targetRelative) {
 
 function statSyncIsDir(path) {
   return statSync(path).isDirectory();
+}
+
+function ensureAttributeRules(path, lines) {
+  const existing = existsSync(path) ? readFileSync(path, "utf8") : "";
+  const existingLines = existing.split("\n");
+  const missing = lines.filter((line) => {
+    const pattern = line.split(" ", 1)[0];
+    // Gitattributes separates pattern from attributes with any whitespace (tabs included).
+    const existingRule = existingLines.find((candidate) => candidate.trim().split(/\s+/, 1)[0] === pattern);
+    if (!existingRule) return true;
+    if (existingRule.trim() !== line) console.log(`attributes: preserve existing rule for ${pattern}`);
+    return false;
+  });
+  if (missing.length === 0) return;
+
+  const separator = existing.length === 0 || existing.endsWith("\n") ? "" : "\n";
+  const prefix = existing.length === 0 ? "# llm-workflow wiki files\n" : "";
+  writeFileSync(path, `${existing}${separator}${prefix}${missing.join("\n")}\n`);
+  console.log(`attributes: ${path}`);
 }

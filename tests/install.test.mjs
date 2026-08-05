@@ -14,6 +14,14 @@ function freshTarget() {
   return dir;
 }
 
+function realTarget() {
+  const dir = mkdtempSync(join(tmpdir(), "llm-workflow-real-"));
+  execFileSync("git", ["init", "-q"], { cwd: dir });
+  execFileSync("git", ["config", "user.email", "test@example.com"], { cwd: dir });
+  execFileSync("git", ["config", "user.name", "Test"], { cwd: dir });
+  return dir;
+}
+
 function install(target, ...flags) {
   return execFileSync("node", [join(kitRoot, "install.mjs"), target, ...flags], { encoding: "utf8" });
 }
@@ -24,6 +32,11 @@ test("fresh install scaffolds everything", () => {
     install(target);
     for (const path of [
       "skills/workflow.md",
+      "skills/planning.md",
+      "skills/testing.md",
+      "skills/debugging.md",
+      "skills/architecture-review.md",
+      "skills/re-conciliate.md",
       "scripts/llm-workflow/scope.mjs",
       "scripts/llm-workflow/lib/core.mjs",
       "AGENTS.md",
@@ -31,6 +44,7 @@ test("fresh install scaffolds everything", () => {
       "llm-workflow.config.json",
       "docs/wiki/index.md",
       "docs/wiki/progress.md",
+      ".gitattributes",
     ]) {
       assert.ok(existsSync(join(target, path)), `missing ${path}`);
     }
@@ -75,10 +89,20 @@ test("update replaces kit files but never project files", () => {
     writeFileSync(join(target, "llm-workflow.config.json"), JSON.stringify({ kitVersion: 0, gate: ["true"], verify: [] }, null, 2));
     writeFileSync(join(target, "docs/wiki/project.md"), "MINE");
     writeFileSync(join(target, "skills/workflow.md"), "STALE KIT FILE");
+    writeFileSync(
+      join(target, ".gitattributes"),
+      "*.lock binary\ndocs/wiki/log.md merge=union\ndocs/wiki/progress.md\t-merge\n",
+    );
     install(target, "--update");
     assert.equal(readFileSync(join(target, "docs/wiki/project.md"), "utf8"), "MINE");
     assert.ok(readFileSync(join(target, "skills/workflow.md"), "utf8").includes("# Workflow Skill"));
     assert.equal(JSON.parse(readFileSync(join(target, "llm-workflow.config.json"), "utf8")).kitVersion, 1);
+    const attributes = readFileSync(join(target, ".gitattributes"), "utf8");
+    assert.ok(attributes.includes("*.lock binary"), "existing attributes must survive");
+    assert.equal(attributes.match(/docs\/wiki\/log\.md merge=union/g)?.length, 1, "managed attributes must not duplicate");
+    assert.ok(attributes.includes("docs/wiki/decisions.md merge=union"), "missing managed attribute");
+    assert.ok(attributes.includes("docs/wiki/progress.md\t-merge"), "existing path policy must survive");
+    assert.ok(!attributes.includes("docs/wiki/progress.md merge=union"), "tab-separated existing path policy must win");
   } finally {
     rmSync(target, { recursive: true, force: true });
   }
@@ -103,6 +127,49 @@ test("update preserves non-kit files in kit dirs", () => {
     writeFileSync(join(target, "skills/my-own-skill.md"), "precious");
     install(target, "--update");
     assert.equal(readFileSync(join(target, "skills/my-own-skill.md"), "utf8"), "precious");
+  } finally {
+    rmSync(target, { recursive: true, force: true });
+  }
+});
+
+test("fresh install produces runnable scoped and wiki verifiers in a real repository", () => {
+  const target = realTarget();
+  try {
+    install(target);
+    writeFileSync(
+      join(target, "llm-workflow.config.json"),
+      `${JSON.stringify(
+        {
+          kitVersion: 1,
+          gate: ["node --version"],
+          verify: [{ name: "source", globs: ["src/**"], commands: ["node --version"] }],
+          lenses: {},
+          wiki: { ledgerDriftCommits: 15, domainDriftCommits: 5, ledgerRowMaxChars: 700 },
+        },
+        null,
+        2,
+      )}\n`,
+    );
+    execFileSync("git", ["add", "."], { cwd: target });
+    execFileSync("git", ["commit", "-qm", "install workflow"], { cwd: target });
+    mkdirSync(join(target, "src"));
+    writeFileSync(join(target, "src/example.ts"), "export const value = 1;\n");
+
+    const scope = execFileSync(
+      process.execPath,
+      [join(target, "scripts/llm-workflow/scope.mjs"), "--base", "HEAD", "--dry-run", "--json"],
+      { cwd: target, encoding: "utf8" },
+    );
+    const result = JSON.parse(scope);
+    assert.deepEqual(result.files, ["src/example.ts"]);
+    assert.deepEqual(result.commands, ["node --version"]);
+    assert.match(
+      execFileSync(process.execPath, [join(target, "scripts/llm-workflow/wiki-lint.mjs")], {
+        cwd: target,
+        encoding: "utf8",
+      }),
+      /wiki-lint: 5 pages green/,
+    );
   } finally {
     rmSync(target, { recursive: true, force: true });
   }

@@ -12,6 +12,10 @@ type: context
 
 (what this is, who it serves, current direction)
 
+## Domain Language
+
+(canonical project-specific terms and one-line meanings; name ambiguous terms to avoid. Keep implementation detail in domain pages.)
+
 ## Stack Specifics
 
 (deviations from skills/stack.md defaults, build/run commands worth knowing)

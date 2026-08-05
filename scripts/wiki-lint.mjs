@@ -43,7 +43,10 @@ for (const path of walkMarkdown(wikiDir)) {
 }
 
 for (const [name, page] of pages) {
-  const { frontmatter, body, path } = page;
+  const { frontmatter, duplicateKeys, body, path } = page;
+  for (const key of duplicateKeys ?? []) {
+    errors.push(`${rel(path)}: duplicate frontmatter key "${key}" (union-merge artifact — keep one)`);
+  }
   if (!frontmatter.title) errors.push(`${rel(path)}: frontmatter missing title`);
   if (!/^\d{4}-\d{2}-\d{2}$/.test(frontmatter.updated ?? ""))
     errors.push(`${rel(path)}: frontmatter updated must be YYYY-MM-DD`);
@@ -55,6 +58,7 @@ for (const [name, page] of pages) {
   if (ABSOLUTE_PATH_PATTERN.test(body)) errors.push(`${rel(path)}: absolute local machine path in body`);
   // A ledger row is a pointer, not a narrative — details live in log.md or git history.
   if (frontmatter.type === "ledger") {
+    const rowKeys = new Set();
     for (const line of body.split("\n")) {
       if (!line.startsWith("|")) continue;
       if (line.length > ledgerRowMaxChars) {
@@ -62,9 +66,21 @@ for (const [name, page] of pages) {
           `${rel(path)}: ledger row is ${line.length} chars (limit ${ledgerRowMaxChars}) — move narrative to log.md or git: "${line.slice(0, 60)}…"`,
         );
       }
+      const key = line.split("|")[1]?.trim();
+      if (!key || key.toLowerCase() === "stage" || /^-+$/.test(key)) continue;
+      if (rowKeys.has(key)) errors.push(`${rel(path)}: duplicate ledger row key "${key}"`);
+      rowKeys.add(key);
     }
   }
-  for (const link of wikiLinks(body)) {
+  const links = wikiLinks(body);
+  if (name === "index") {
+    for (const link of duplicates(links)) errors.push(`${rel(path)}: duplicate index link [[${link}]]`);
+  }
+  if (frontmatter.type === "decision") {
+    const headings = [...body.matchAll(/^##\s+(.+)$/gm)].map((match) => match[1].trim());
+    for (const heading of duplicates(headings)) errors.push(`${rel(path)}: duplicate decision heading "${heading}"`);
+  }
+  for (const link of links) {
     if (!pages.has(link)) errors.push(`${rel(path)}: broken link [[${link}]]`);
   }
   if (name !== "index" && !wikiLinks(pages.get("index")?.body ?? "").includes(name)) {
@@ -136,6 +152,7 @@ function parseFrontmatter(raw) {
   const match = /^---\r?\n([\s\S]*?)\r?\n---\r?\n?([\s\S]*)$/.exec(raw.replaceAll("\r\n", "\n"));
   if (!match) return null;
   const frontmatter = {};
+  const duplicateKeys = new Set();
   let listKey = null;
   for (const line of match[1].split("\n")) {
     const item = /^\s+-\s+(.+)$/.exec(line);
@@ -145,6 +162,8 @@ function parseFrontmatter(raw) {
     }
     const pair = /^(\w+):\s*(.*)$/.exec(line);
     if (!pair) continue;
+    // Union merges duplicate scalar keys (e.g. two `updated:` lines); last-one-wins would silently skew drift dates.
+    if (pair[1] in frontmatter) duplicateKeys.add(pair[1]);
     if (pair[2] === "") {
       listKey = pair[1];
       frontmatter[listKey] = [];
@@ -153,11 +172,21 @@ function parseFrontmatter(raw) {
       listKey = null;
     }
   }
-  return { frontmatter, body: match[2] };
+  return { frontmatter, duplicateKeys, body: match[2] };
 }
 
 function wikiLinks(body) {
   return [...body.matchAll(/\[\[([^\]]+)\]\]/g)].map((found) => found[1].trim());
+}
+
+function duplicates(values) {
+  const seen = new Set();
+  const duplicated = new Set();
+  for (const value of values) {
+    if (seen.has(value)) duplicated.add(value);
+    seen.add(value);
+  }
+  return duplicated;
 }
 
 function rel(path) {

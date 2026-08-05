@@ -1,0 +1,14 @@
+{
+  "kitVersion": 1,
+  "gate": ["pnpm test"],
+  "verify": [
+    {
+      "name": "kit",
+      "globs": ["install.mjs", "scripts/**", "skills/**", "templates/**", "tests/**"],
+      "commands": ["pnpm test"]
+    }
+  ],
+  "lenses": {
+    "complexity": ["install.mjs", "scripts/**", "templates/**"]
+  }
+}
