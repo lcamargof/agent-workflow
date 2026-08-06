@@ -14,7 +14,9 @@ a source's licence requires it, that licence is noted below.
 - **Matt Pocock — `mattpocock/skills`** (MIT, © Matt Pocock, 2026)
   Influenced: `architecture-review` (`codebase-design`, `improve-codebase-architecture`),
   `debugging` (`diagnosing-bugs`), `testing` (`tdd`), `planning` (`to-tickets`, `wayfinder`),
-  `wayfinder` (`wayfinder`), `writing-great-skills` (`writing-great-skills`).
+  `wayfinder` (`wayfinder`), `resolving-merge-conflicts` (`resolving-merge-conflicts`),
+  `wiki` (the decision-record gate from `domain-modeling`), `writing-great-skills`
+  (`writing-great-skills`).
 
 - **Lauren Tan — pstack** (MIT)
   Influenced: `topology` (`arena`/`swarm`), `experience-design` (`architect`/`arena`),

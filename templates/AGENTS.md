@@ -7,7 +7,8 @@ Loader only. Kit behavior lives in `skills/`; project truth and overrides live i
 - Code work: `skills/workflow.md`, `skills/code-standards.md`, `docs/wiki/project.md`.
 - Medium/high work: `skills/stage.md` — the staged loop, contract to closeout; touch-up/low skip it.
 - Bug/flake/regression: `skills/debugging.md`; `skills/testing.md` before a fix with a seam or any changed non-trivial behavior.
-- High work: unclear route → `skills/wayfinder.md` then `skills/planning.md`; clear → planning directly.
+- Merge/rebase conflict: `skills/resolving-merge-conflicts.md`.
+- High work: unclear → `skills/wayfinder.md` then `skills/planning.md`; clear → planning.
 - Consequential experience/public-seam/ownership/persistence choice: `skills/experience-design.md` before planning.
 - Parallel work, competing candidates, or a requested agent count: `skills/topology.md`; authority assignment adds `skills/model-capabilities.md`.
 - Missing real-surface proof: `skills/create-verification.md`; drifted proof: `skills/maintain-verification.md`.

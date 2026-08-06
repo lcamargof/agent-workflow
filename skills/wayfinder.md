@@ -8,7 +8,7 @@ Influence: adapted from Matt Pocock's `wayfinder` skill (`mattpocock/skills`, MI
 
 Wayfinder finds the route; it does not implement the destination. Each ticket resolves a decision, research question, prototype question, or literal task that blocks a decision. When nothing material remains to decide, hand the result to `skills/planning.md` for executable slices.
 
-Refer to maps and tickets by their names in human-facing text. Paths and identifiers support the name; they never replace it.
+Refer to maps and tickets by their names in human-facing text: a wall of `#42, #43, #44` is illegible; names read at a glance. Paths and identifiers ride inside the name; they never replace it.
 
 ## Domain
 

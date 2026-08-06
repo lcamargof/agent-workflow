@@ -8,7 +8,7 @@ Choose the highest stable public interface that reproduces the caller/user behav
 
 Expected values come from an independent oracle: specification, worked literal, captured real fixture, or authoritative example. Never restate the implementation inside the assertion.
 
-Mock true external boundaries, time/randomness, or expensive local substitutes. Do not mock internal collaborators merely to make construction easy. A fixture representing an external payload should preserve the complete relevant shape and identity constraints.
+Mock true external boundaries, time/randomness, or expensive local substitutes. Do not mock internal collaborators merely to make construction easy. A fixture standing in for an external payload must keep the real payload's full shape and its ids.
 
 ## Red → Green → Refactor
 

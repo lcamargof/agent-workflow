@@ -77,7 +77,7 @@ test("honest-challenge behavior is diluted into the owner skills, not a standalo
   assert.match(planning, /strongest case against the plan/);
   assert.match(planning, /A plan is a claim to evaluate, not proof that it works/);
   assert.match(workflow, /unknowns, and unavailable tools are named — "I don't know" beats manufactured confidence/);
-  assert.match(architecture, /Steelman each candidate into its strongest version before trying to falsify/);
+  assert.match(architecture, /Steelman each candidate before trying to falsify/);
 });
 
 test("frequently routed skills stay within explicit context budgets", () => {

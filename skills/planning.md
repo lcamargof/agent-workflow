@@ -25,7 +25,7 @@ Do not prewrite complete implementation code. It becomes stale and biases tests 
 
 ## Slices and Blockers
 
-A **slice** is an end-to-end, independently demonstrable result sized for one fresh context. Work the first unblocked slice. Setup, docs, and tests belong with the behavior that needs them, not in horizontal phases.
+A **slice** is a *vertical*, end-to-end, independently demonstrable result sized for one fresh context. Work the first unblocked slice. Setup, docs, and tests belong with the behavior that needs them, not in horizontal phases.
 
 A plan never implies fan-out: for parallel-looking slices or a requested agent count, `skills/topology.md` decides one agent, Arena, or Swarm before spawning.
 
