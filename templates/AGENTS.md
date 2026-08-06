@@ -5,6 +5,7 @@ Loader only. Kit behavior lives in `skills/`; project truth and overrides live i
 ## Load
 
 - Code work: `skills/workflow.md`, `skills/code-standards.md`, `docs/wiki/project.md`.
+- Medium/high work: `skills/stage.md` — the staged loop, contract to closeout; touch-up/low skip it.
 - Bug/flake/regression: `skills/debugging.md`; `skills/testing.md` before a fix with a seam or any changed non-trivial behavior.
 - High work: unclear route → `skills/wayfinder.md` then `skills/planning.md`; clear → planning directly.
 - Consequential experience/public-seam/ownership/persistence choice: `skills/experience-design.md` before planning.

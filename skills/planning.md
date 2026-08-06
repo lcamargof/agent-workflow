@@ -21,15 +21,13 @@ Create one project-owned plan using the repository's convention:
 ## Unresolved decisions
 ```
 
-Acceptance evidence names the command, behavior, visual state, or artifact that proves each criterion. Ask the human only when an unresolved choice changes behavior, architecture, risk, or scope.
-
 Do not prewrite complete implementation code. It becomes stale and biases tests toward an imagined solution. Name produced/consumed interfaces only where slices depend on each other.
 
 ## Slices and Blockers
 
 A **slice** is an end-to-end, independently demonstrable result sized for one fresh context. Work the first unblocked slice. Setup, docs, and tests belong with the behavior that needs them, not in horizontal phases.
 
-One agent is the default. For parallel-looking slices or a requested agent count, `skills/topology.md` decides one agent, Arena, or Swarm before spawning; a plan never implies fan-out.
+A plan never implies fan-out: for parallel-looking slices or a requested agent count, `skills/topology.md` decides one agent, Arena, or Swarm before spawning.
 
 For a wide mechanical migration that cannot stay green as vertical slices, use **expand → migrate callers in green batches → contract**. Name every batch blocking contraction.
 

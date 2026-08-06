@@ -84,6 +84,7 @@ test("frequently routed skills stay within explicit context budgets", () => {
   const budgets = {
     "templates/AGENTS.md": 250,
     "skills/workflow.md": 1100,
+    "skills/stage.md": 500,
     "skills/planning.md": 500,
     "skills/testing.md": 500,
     "skills/debugging.md": 500,
