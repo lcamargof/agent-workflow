@@ -6,8 +6,25 @@ import { test } from "node:test";
 import { fileURLToPath } from "node:url";
 
 const kitRoot = join(dirname(fileURLToPath(import.meta.url)), "..");
-const BANNED = [/interview[- ]?friend/i, /\binterviewer\b/i, /\bavatar\b/i, /\bexercise\b/i, /\bcodex\b/i, /\bopencode\b/i];
-const SURFACES = ["skills", "scripts", "templates", "install.mjs", "README.md"];
+// Product-specific terms that must never appear on a shipped surface — projects the kit was
+// extracted from and agent tools it must not assume. Bare common words (register, reserve) are
+// deliberately NOT banned: they collide with real English; the project *names* are caught by
+// their distinctive product strings instead. Keep this list to distinctive strings, not words.
+const BANNED = [
+  /interview[- ]?friend/i,
+  /\binterviewer\b/i,
+  /\bavatar\b/i,
+  /\bexercise\b/i,
+  /\bcodex\b/i,
+  /\bopencode\b/i,
+  /\bchatty\b/i,
+  /reserve-(api|ai|protocol|dashboard|sdk)/i,
+  /api\.reserve/i,
+  /reserve\.org/i,
+  /\bDTFs?\b/,
+  /\bRToken/i,
+];
+const SURFACES = ["skills", "scripts", "templates", "install.mjs", "README.md", "NOTICE.md"];
 
 test("kit files contain no product-specific references", () => {
   const offenders = [];

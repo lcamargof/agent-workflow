@@ -23,7 +23,7 @@ The verifier already signs (hashes). Is the orchestrator's countersign (a) autho
 Not everything is a capsule. Draft criteria: stable boundary (survived ≥1 design iteration), own test seam, single ownership. Features under active design churn stay normal folders — otherwise contract churn eats the benefit. Where's the line for "stable enough"? Gut says: second time a feature ships without boundary changes. Unvalidated.
 
 **Q7 — Box depth cap: 1 or 2?**
-Fleet throughput argues for shallow (critical path). Register's reality (Index DTF → overview → charts) suggests 2 meaningful levels exist. Cap at 2, lint warns at 2, refuses at 3? Undecided.
+Fleet throughput argues for shallow (critical path). the reference app's reality (a product module → overview → charts) suggests 2 meaningful levels exist. Cap at 2, lint warns at 2, refuses at 3? Undecided.
 
 **Q8 — Naming.**
 "Capsule architecture" appears unclaimed; "context capsule" is taken by unrelated products. Decide before anything public.

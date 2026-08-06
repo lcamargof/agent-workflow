@@ -1,95 +1,96 @@
 # agent-workflow
 
-A workflow kit for coding agents: a handful of skills, three small scripts, and a wiki convention for project memory. Works with anything that reads markdown.
+A workflow kit for coding agents: a handful of skills, three small scripts, and a wiki convention for project memory. Plain markdown and one JSON config — it works with anything that reads files.
 
-The goal is boring on purpose: code that stays easy to review and easy to replace, no matter who or what wrote it.
+The goal is deliberately boring: code that stays easy to review and easy to replace, no matter who or what wrote it.
 
 ## Why
 
-Getting agents to write code is not the problem. The problem is the codebase three months later: duplicated business logic, abstractions on top of abstractions, diffs that pass every check while quietly changing the shape of the project.
+Getting an agent to write code was never the hard part. The hard part is the codebase three months later — duplicated logic, abstractions stacked on abstractions, diffs that pass every check while quietly bending the shape of the project.
 
-My bet is that codebases need to break into smaller pieces with explicit boundaries. Some pieces are load-bearing (money math, protocol logic, trust boundaries). Those get hard boundaries, forced review, sometimes hand-written code. The rest should be cheap to burn: verify the behavior, ship it, rewrite it when requirements change.
+The bet here is that codebases need to break into smaller pieces with explicit boundaries. A few pieces are load-bearing — money math, protocol logic, trust boundaries — and those earn hard boundaries, forced review, sometimes hand-written code. Everything else should be cheap to burn: verify the behavior, ship it, rewrite it when the requirements move.
 
-This kit keeps that split honest. It doesn't chase autonomy or velocity. Those show up on their own once review stops being the bottleneck.
+This kit keeps that split honest. It doesn't chase autonomy or velocity; those tend to show up on their own once review stops being the bottleneck.
 
-## Philosophy
+## How it thinks
 
-- Skills are the value, scripts are support. Heavy gates get routed around (measured that, it's not a theory), so every gate here is small enough to obey.
-- The dumb solution wins. Zero dependencies, plain markdown, one JSON config.
-- Evidence over trust. No completion claims without fresh verification. Reviewer output gets checked before it's believed. A skipped review is recorded as skipped, not passed.
-- Intent and risk are separate review axes. Medium work gets at most one independent review; high work gets at most two. Reviewer count is a cost, not a confidence metric.
-- Falsification lives in the output contracts, not in a separate ritual: plans must state the strongest case against themselves, reviews must report the disconfirming evidence they sought, and "I don't know" beats manufactured confidence.
-- The wiki compounds. Project knowledge lives in `docs/wiki/` (Karpathy LLM-Wiki style: interlinked pages, ingest/query/lint). Agents update it at every closeout so future agents load less and assume less.
+- **Skills are the value; scripts are support.** Heavy gates get routed around — that's measured, not a theory — so every gate here is small enough to actually obey.
+- **The dumb solution wins.** Zero dependencies, plain markdown, one JSON config.
+- **Evidence over trust.** No "done" without fresh proof from this run. Reviewer output is checked before it's believed. A skipped review is recorded as skipped, not quietly passed.
+- **Intent and risk are separate review axes.** Medium work gets at most one independent review; high work at most two. Reviewer count is a cost, not a confidence score.
+- **Falsification lives in the output, not a ritual.** Plans state their own strongest counter-argument; reviews report the disconfirming evidence they went looking for; "I don't know" beats manufactured confidence.
+- **The wiki compounds.** Project knowledge lives in `docs/wiki/` (interlinked pages, ingest/query/lint). Agents update it at every closeout, so the next agent loads less and assumes less.
 
-## In production
+## Battle-tested, not whiteboarded
 
-This wasn't designed on a whiteboard. It's the workflow behind [Register](https://github.com/reserve-protocol/register), Reserve's main app: five years old, ~200k lines of TypeScript, moves real money across multiple chains and protocol versions. The team ships releases through it daily. Register was the first brownfield adoption, and most of the backlog below comes from that.
+This wasn't sketched on a whiteboard. It grew out of running agents against a real production codebase — five years old, hundreds of thousands of lines of TypeScript, moving real money across multiple chains and protocol versions, shipping daily. That was the first brownfield adoption, and a good share of the backlog below is scar tissue from it.
 
-A working, evolving workflow. If a rule seems arbitrary, it's probably a scar.
+If a rule here looks arbitrary, it's probably a scar.
 
 ## Install
 
 ```bash
 node install.mjs /path/to/repo          # fresh install
-node install.mjs /path/to/repo --update # pull kit updates (project files untouched)
+node install.mjs /path/to/repo --update # pull kit updates (your files untouched)
 ```
 
-To bring an already-adopted repo fully up to date ("refresh workflow on <repo>"), run `--update` and then follow `skills/re-conciliate.md` — it ports new routes and config keys into the project-owned files the installer deliberately never touches, with the project's own rules winning on every conflict.
+A fresh install scaffolds `AGENTS.md`, `CLAUDE.md`, `llm-workflow.config.json`, and `docs/wiki/`. Then you do two things:
 
-Fresh install scaffolds `AGENTS.md`, `CLAUDE.md`, `llm-workflow.config.json`, and `docs/wiki/`, then you:
+1. Edit `llm-workflow.config.json` — the `gate` (your closeout commands) and `verify` rules (file globs → the commands that check them).
+2. Fill in `docs/wiki/project.md` — product, stack, safety rules, and the UI voice.
 
-1. Edit `llm-workflow.config.json`: the `gate` (full closeout commands) and `verify` rules (glob groups → commands) for this repo.
-2. Fill `docs/wiki/project.md` (product, stack specifics, safety, UI register).
+**Ownership is clean:** the kit owns `skills/` and `scripts/llm-workflow/` and replaces them wholesale on `--update`. Everything else is yours and is never touched after the first scaffold.
 
-Ownership: the kit owns `skills/` and `scripts/llm-workflow/` (replaced wholesale on `--update`). Everything else is yours and never touched after scaffolding.
+**Already have agent context** (a CLAUDE.md, .cursorrules, an existing AGENTS.md)? The installer notices and points you at `skills/adopt.md` — a non-destructive merge where your existing rules win every conflict and each one ends up somewhere explicit: the wiki, the config, an override note, or a logged drop.
 
-The installer also idempotently adds union-merge attributes for the four append/ledger wiki files to `.gitattributes`. Existing rules for those paths win and are left untouched. This prevents parallel branches from repeatedly conflicting while leaving rewrite-in-place domain pages on normal Git merging; wiki-lint rejects duplicate merged ledger rows, index links, and decision headings.
+**Refreshing an adopted repo** to a newer kit? Run `--update`, then follow `skills/re-conciliate.md` to port new routes and config keys into your own files — again, your rules win on conflict.
 
-**Existing repos**: if the repo already has agent context (CLAUDE.md, AGENTS.md, .cursorrules…), the installer detects it and points at `skills/adopt.md`, a non-destructive merge where the repo's existing rules win on conflict and every rule ends up in the wiki, the config, an override note, or an explicit drop log. Glob note: `*` stays within a path segment; use `**` to cross directories (`**/storage/**`, not `**/*storage*`).
+(The installer also adds union-merge git attributes for the append-only wiki files, so parallel branches stop fighting over ledger rows.)
 
-## For agents
+## For an agent installing this
 
-Told to integrate this kit into a repo? The whole procedure:
+The whole procedure:
 
-1. `node <kit>/install.mjs <repo>` — the output says whether this is a fresh install or a brownfield adoption.
-2. Fresh repo: edit `llm-workflow.config.json` (gate + verify globs mapped to the repo's real commands), fill `docs/wiki/project.md`, then `node scripts/llm-workflow/wiki-lint.mjs`.
-3. Brownfield (existing agent context): follow `skills/adopt.md` end to end — zero information loss, repo rules win, router migrates last.
-4. Done when: wiki-lint is green, `scope.mjs --base HEAD --dry-run` maps sensible commands for a sample diff, and the repo's single agent entry point is the `AGENTS.md` router.
+1. `node <kit>/install.mjs <repo>` — the output tells you fresh install or brownfield.
+2. **Fresh:** edit `llm-workflow.config.json`, fill `docs/wiki/project.md`, run `node scripts/llm-workflow/wiki-lint.mjs`.
+3. **Brownfield:** follow `skills/adopt.md` end to end — zero information loss, repo rules win, the router migrates last.
+4. **Done when** wiki-lint is green, `scope.mjs --base HEAD --dry-run` maps sensible commands for a sample diff, and the repo's single entry point is the `AGENTS.md` router.
 
-From then on the router owns every session — this README is only for installing and updating the kit.
+After that the router owns every session — this README is only for installing and updating.
 
 ## The loop
 
 ```
-calibrate: radius × size            # radius buys review, size buys ceremony — scope.mjs prints the signals
+calibrate: radius × size            # radius buys review, size buys ceremony
 touch-up / low:  scoped verify + self-review through the fired lenses, done
-medium:          wide radius, modest size — ONE stage: ≤1 independent review + full gate + one row
-high:            multi-slice or cross-package — durable contract + blockers + ≤2 orthogonal final reviews
+medium:          one stage — ≤1 independent review + full gate + one ledger row
+high:            multi-slice — durable contract + blockers + ≤2 orthogonal final reviews
+
 stage mechanics (medium & high):
-  workflow-start --stage "<name>"   # clean tree + ledger row + base ref
-  implement smallest unblocked slice # red → green at a real behavior seam when applicable
-  scope.mjs --base <ref>            # touched files → verify commands + review lenses + red flags + tier hint
-  review intent + engineering risk  # within budget; verify claims before accepting
-  closeout: full gate (or gate-equivalent final scoped run) + visual check (UI) + progress row + wiki ingest + wiki-lint
+  workflow-start --stage "<name>"    # clean tree + ledger row + base ref
+  implement the smallest unblocked slice, red → green at a real behavior seam
+  scope.mjs --base <ref>             # touched files → verify commands + review lenses + red flags
+  review intent + engineering risk   # within budget; verify claims before accepting them
+  closeout: full gate + visual check (UI) + progress row + wiki ingest + wiki-lint
 ```
 
-Blast radius and work size are independent axes: a one-line fix in shared machinery is small work with a wide radius (heavy review, light ceremony); a four-phase feature inside one domain is the reverse. `skills/workflow.md` § Calibrate: Radius × Size owns the boundaries; when debating two profiles, take the heavier one.
+Blast radius and work size are independent. A one-line change in shared machinery is *small work, wide radius* — heavy review, light ceremony. A four-phase feature inside one folder is the reverse. `skills/workflow.md` owns the exact boundaries; when two profiles both look plausible, take the heavier one.
 
 ## Layout
 
-- `skills/` — workflow, planning, testing, debugging, review-panel, pair/pair-reviewer, architecture-review, wiki, code-standards, self-improve, writing-great-skills, adopt, re-conciliate, ui-ux, stack, design
-- `scripts/` — `scope.mjs`, `workflow-start.mjs`, `wiki-lint.mjs`, `lib/core.mjs`
-- `templates/` — AGENTS.md router, CLAUDE.md shim, config, wiki skeleton
-- `tests/` — `pnpm test` (scope engine, workflow scripts, wiki-lint, installer, skill invariants, kit purity)
+- `skills/` — the workflow itself: workflow, planning, testing, debugging, review, pairing, architecture, wiki, code-standards, and the rest.
+- `scripts/` — `scope.mjs`, `workflow-start.mjs`, `wiki-lint.mjs`, and a shared lib.
+- `templates/` — the `AGENTS.md` router, a config, and the wiki skeleton.
+- `tests/` — `pnpm test` covers the scope engine, the scripts, wiki-lint, the installer, skill invariants, and a purity check that keeps the kit project-agnostic.
 
-The kit repo self-hosts: it carries its own `llm-workflow.config.json` (gate: `pnpm test`), so `scope.mjs` runs on kit development the same way it runs on adopted repos.
+The kit self-hosts: it carries its own config (gate: `pnpm test`), so `scope.mjs` runs on kit development exactly as it runs on an adopted repo.
 
-## S-tier bar
+## When it's "done"
 
-The kit is done when, measured not vibed: adoption of a fresh repo is one install + one config edit (<10 min to first productive loop); a complex multi-file feature ships with zero gates routed around (ledger-drift alarm proves it); the wiki stays in sync unprompted (wiki-lint green incl. domain drift); kit self-tests and purity checks are green.
+Measured, not vibed: a fresh repo is productive within one install and one config edit; a complex multi-file feature ships with zero gates routed around; the wiki stays in sync without being nagged; and the kit's own tests and purity checks stay green.
 
-## Backlog
+## Known rough edges
 
-- The internals still say `llm-workflow` (`llm-workflow.config.json`, `scripts/llm-workflow/`). Renaming them breaks every adopted repo, so it waits for a major version.
-- `skills/` at target-repo root is a namespace grab in product repos; a `.llm-workflow/` layout is a breaking change (installer + router + adopted repos) — revisit at a major version.
-- Page-length wiki-lint check and per-page drift overrides deliberately not built — no observed failure yet (first adoption's max page: 69 body lines); revisit if a page actually blows past ~100 lines or a drift alarm false-fires in practice.
+- The internals still say `llm-workflow` (the config filename, the scripts folder). Renaming breaks every adopted repo, so it waits for a major version.
+- `skills/` at a repo's root is a bit of a namespace grab; a `.llm-workflow/` layout would be cleaner but is a breaking change — also a major-version item.
+- There's no per-page length check in wiki-lint yet. No page has needed it; it gets built the first time one actually sprawls.

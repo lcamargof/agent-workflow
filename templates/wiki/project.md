@@ -24,7 +24,7 @@ type: context
 
 (trust boundaries, secrets handling, things agents must never do here)
 
-## UI Register
+## UI Voice
 
 (tone and personality of the product UI — consumed by skills/ui-ux.md)
 

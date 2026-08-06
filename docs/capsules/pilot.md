@@ -15,7 +15,7 @@ Requirements for a good candidate:
 - At least two capsules with a real consumer/provider edge (to exercise verified fakes + pending expectations).
 - Something Luis actually wants to exist, or it dies of apathy.
 
-Candidate directions (decide at kickoff, not here): a standalone tool/service in the Reserve orbit (e.g., something reserve-ai-adjacent or a DTF data utility), or a neutral non-work app. Bias: neutral is a cleaner experiment; Reserve-orbit is more likely to stay alive after the experiment. Both acceptable.
+Candidate directions (decide at kickoff, not here): a standalone tool/service in the product orbit (e.g., something adjacent to an internal service or a module data utility), or a neutral non-work app. Bias: neutral is a cleaner experiment; product-orbit is more likely to stay alive after the experiment. Both acceptable.
 
 ## Build order
 
@@ -43,4 +43,4 @@ Recorded per work session in the project wiki, nothing fancier:
 
 ## After the pilot
 
-Success path: promote capsule-lint + templates + `skills/capsule.md` (+ an orchestration skill, written from observed practice, not speculation) into the kit proper; then Register brownfield begins with the overview diagnostic (graph first, ratchet second, migrate opportunistically).
+Success path: promote capsule-lint + templates + `capsule-skill.md` (to `skills/capsule.md`) (+ an orchestration skill, written from observed practice, not speculation) into the kit proper; then the reference app brownfield begins with the overview diagnostic (graph first, ratchet second, migrate opportunistically).

@@ -32,12 +32,12 @@ a source's licence requires it, that licence is noted below.
   lint).
 
 - **Philipp Bakaus — `pbakaus/impeccable`** (Apache 2.0)
-  Influenced: `ui-ux` / register rules. Per Apache 2.0 §4, this notice preserves the
+  Influenced: `ui-ux` / voice rules. Per Apache 2.0 §4, this notice preserves the
   attribution; no NOTICE text from that project was itself carried over.
 
 - **`Leonxlnx/taste-skill`** (MIT) and **Anthropic's `frontend-design` skill** (no separate
   licence carried; influence only)
   Influenced: `taste` (its AI-slop catalog and render audit). The taste rules here are a
-  distilled, register-agnostic re-authoring — the third-party skills' text is not vendored.
+  distilled, voice-agnostic re-authoring — the third-party skills' text is not vendored.
 
 If you recognize an influence that should be credited here and is not, please open an issue.

@@ -8,7 +8,7 @@ Influence: Andrej Karpathy's "LLM Wiki" pattern (gist `442a6bf555914893e9891c115
 
 - `index.md` — catalog: one line per page with a hook. The entry point for every query.
 - `log.md` — append-only chronological record (`## YYYY-MM-DD` sections). The ONLY append-only file.
-- `project.md` — product context, stack, safety rules, UI register, active risks.
+- `project.md` — product context, stack, safety rules, UI voice, active risks.
 - `progress.md` — stage ledger table + backlog section. One row per stage: status, verifier line, lens lines, next action.
 - `decisions.md` — durable decisions with reasoning; split into pages when it outgrows the split rule.
 - `domains/<name>.md` — one page per feature/domain folder of the codebase.

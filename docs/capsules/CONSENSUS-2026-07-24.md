@@ -1,7 +1,7 @@
 # Capsule Architecture — Claude/Codex Reconciliation
 
 Date: 2026-07-24  
-Inputs: `design.md`, `pilot.md`, `AUDIT-2026-07-24.md`, `REVIEW-2026-07-24.md`, `MVP_PLAN.mdx`, and the kit's current config/scope workflow.
+Inputs: `design.md`, `pilot.md`, `AUDIT-2026-07-24.md`, `REVIEW-2026-07-24.md`, `capsule-mvp.md`, and the kit's current config/scope workflow.
 
 ## Consensus verdict
 
@@ -374,7 +374,7 @@ No implementation should start before the design artifacts agree. The next docum
 1. revise `design.md` for native declaration-first surfaces, external attestation, observed side effects/I/O funnels, test-change flagging, task work packets, no internal semver, and folder/observed/enforced states;
 2. revise `pilot.md` to the two-part lightweight pilot;
 3. correct `prior-art.md` and `research/llm-era.md` novelty, naming, Vercel, and Forge claims;
-4. completed 2026-07-24: replace `MVP_PLAN.mdx` with the lean kit-extension stages above and make net subscription usage a primary acceptance metric;
-5. update `skills/capsule.md` only after the design and pilot are internally consistent.
+4. completed 2026-07-24: replace `capsule-mvp.md` with the lean kit-extension stages above and make net subscription usage a primary acceptance metric;
+5. update `capsule-skill.md` only after the design and pilot are internally consistent.
 
 This reconciliation is the current design decision. The two reviews remain evidence and disagreement history, not competing implementation instructions.

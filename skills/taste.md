@@ -3,15 +3,15 @@
 Use when building or reshaping a user-facing surface where visual quality matters — a new
 screen, a component, a redesign. `skills/design.md` owns the token architecture (the
 constitution); this skill owns the judgment on top of it: an intentional direction and a
-render audit that keeps output from reading as generic AI default. The project's register
+render audit that keeps output from reading as generic AI default. The project's voice
 (tone, personality, audience) lives in `docs/wiki/project.md` — read it first; a warm personal
-app and a data console want opposite choices, and this skill is register-agnostic.
+app and a data console want opposite choices, and this skill is voice-agnostic.
 
 ## Commit to a direction
 
 Before laying anything out, decide the one thing someone remembers. Intentionality beats
 intensity — refined-minimal and bold-maximal both work; templated-default is the only real
-failure. Pick a direction the register actually supports and execute it precisely, rather than
+failure. Pick a direction the voice actually supports and execute it precisely, rather than
 averaging every safe choice into the same centered-hero, three-equal-cards, indigo-gradient
 page every model reaches for.
 
@@ -26,7 +26,7 @@ break one on purpose, never by inertia:
 - Decorative status dots, fake-precise numbers, emoji as iconography.
 - Motion sprinkled everywhere instead of concentrated on a few meaningful moments.
 - Copy in the model's own voice (em-dash reflex, "seamless/effortless/elevate") over the
-  project's register.
+  project's voice.
 
 ## Render audit (before "done")
 
@@ -42,5 +42,5 @@ Fix priority when auditing an existing surface: type → color cleanup → state
 component structure. Cheap high-impact first.
 
 Influence: distilled from Anthropic's `frontend-design` skill and `Leonxlnx/taste-skill` (MIT) —
-the AI-tells catalog and render audit re-authored register-agnostic, with token architecture
+the AI-tells catalog and render audit re-authored voice-agnostic, with token architecture
 delegated to `skills/design.md` rather than duplicated here.

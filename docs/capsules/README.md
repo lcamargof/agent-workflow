@@ -2,7 +2,7 @@
 
 > A capsule is a replaceable module whose **context boundary, code boundary, behavioral contract, and verification boundary** are all explicit and mechanically checked.
 
-Status: **IN PROGRESS — not shipped in the kit.** This folder is the capsule's in-progress home. The binding definition is **`SPEC.md`** (with `CONSENSUS-2026-07-24.md` for rationale); `capsule-skill.md` is the working skill, `capsule-mvp.md` the MVP plan, `pilot.md` how it gets proven, and `design.md`/`prior-art.md` the fuller rationale (stale where they conflict with `SPEC.md`). Capsules are **being piloted on the Chatty project** to test whether they are effective before any kit-wide adoption. This folder is the complete written state so any agent or human can pick it up cold, challenge it, and extend it.
+Status: **IN PROGRESS — not shipped in the kit.** This folder is the capsule's in-progress home. The binding definition is **`SPEC.md`** (with `CONSENSUS-2026-07-24.md` for rationale); `capsule-skill.md` is the working skill, `capsule-mvp.md` the MVP plan, `pilot.md` how it gets proven, and `design.md`/`prior-art.md` the fuller rationale (stale where they conflict with `SPEC.md`). Capsules are **being piloted on a pilot project** to test whether they are effective before any kit-wide adoption. This folder is the complete written state so any agent or human can pick it up cold, challenge it, and extend it.
 
 ## The thesis
 
@@ -50,8 +50,8 @@ Better models raise N (fleet size), and coordination cost scales superlinearly w
 - `open-questions.md` — unresolved decisions, honest risks, ramblings. Read before proposing changes.
 - `pilot.md` — the pet-project plan to prove the thesis.
 - `research/` — the five full research reports (boundary tools, manifests/capabilities, contract testing, architecture war stories, LLM-era patterns), preserved verbatim with sources.
-- `../../skills/capsule.md` — the working skill (discipline-first; tooling lands later).
+- `capsule-skill.md` — the working skill (discipline-first; tooling lands later).
 
 ## Origin
 
-Grew out of the agent-workflow kit running in production on Register (see kit README § In production). The kit proved the loop (review lenses catch real bugs, gates hold, wiki compounds); capsules are the next pass: make the *architecture itself* enforce what the workflow currently enforces by discipline.
+Grew out of the agent-workflow kit running in production on the reference app (see kit README § In production). The kit proved the loop (review lenses catch real bugs, gates hold, wiki compounds); capsules are the next pass: make the *architecture itself* enforce what the workflow currently enforces by discipline.

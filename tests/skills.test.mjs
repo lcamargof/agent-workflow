@@ -49,9 +49,13 @@ test("pair skills share a bounded, failure-safe review protocol", () => {
   }
   // Heartbeats, liveness probes, and the ORPHANED state were removed as net-negative
   // (false alarms, zero true detections). Safety is now structural: only the reviewer
-  // writes LGTM, so a silent peer cannot produce approval — no timer required.
+  // writes LGTM, so a silent peer cannot produce approval — no timer required. Assert the
+  // removed mechanics are ABSENT, not just that the "we removed them" prose is present —
+  // otherwise a regression that re-adds a heartbeat while keeping the note passes green.
   assert.match(protocol, /no heartbeats, timeouts, or liveness probes/);
   assert.match(protocol, /Wake on events, not on a clock/);
+  assert.doesNotMatch(protocol, /->\s*`?ORPHANED/); // no transition INTO an orphaned state (the removal note may still name it)
+  assert.doesNotMatch(reviewer, /\bpoll\b/i); // no clock-driven polling survives in the reviewer loop
   assert.match(protocol, /Any code change after the recorded snapshot invalidates a prospective `LGTM`/);
   assert.match(protocol, /Silence is not consent here by construction|never becomes `LGTM`/);
   assert.match(reviewer, /Do not edit implementation or tests/);

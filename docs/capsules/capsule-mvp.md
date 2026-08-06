@@ -400,10 +400,10 @@ Exit: one source of truth, measured usage decision, full gate green.
 ## Initial implementation loop prompt
 
 ```text
-Implement the first unfinished stage in MVP_PLAN.mdx.
+Implement the first unfinished stage in capsule-mvp.md.
 
 Before editing:
-1. Read docs/capsules/CONSENSUS-2026-07-24.md, MVP_PLAN.mdx, the root
+1. Read docs/capsules/CONSENSUS-2026-07-24.md, capsule-mvp.md, the root
    AGENTS.md, skills/workflow.md, and only the branch skills it routes.
 2. Treat subscription continuity as a hard constraint. Single-agent is the
    default. Do not spawn implementation or review agents merely because

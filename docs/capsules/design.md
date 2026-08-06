@@ -29,13 +29,13 @@ One file, two audiences. Machine-readable frontmatter + bounded prose. **v1 fiel
 capsule: exposure-panel
 version: 1.2.0            # computed, not chosen — see §4
 provides:                  # GENERATED from public.<ext> by capsule-lint; humans sign the diff
-  - fn: getExposure(dtf: Address): ExposureReport
+  - fn: getExposure(module: Address): ExposureReport
   - component: ExposurePanel
 requires:                  # DERIVED from code; the *policy* below is what's authored
   platform: [design-tokens, api-client]
   capsules: [pricing]      # each edge may carry a relationship type, see §7
   channels:                # I/O surface: network, storage, shared state
-    - net: reserve-api /dtf/exposure
+    - net: an internal API /module/exposure
     - state: chainIdAtom (read)
 risk: high                 # DERIVED from channels (money/auth/on-chain/PII ⇒ floor); author can only raise
 verify: pnpm --filter exposure-panel verify   # the local gate, must run in isolation
@@ -114,7 +114,7 @@ Design constraint: **every artifact passes the cold-stranger test** — auditabl
 - Model diversity is variance reduction, not independence (Knight & Leveson: independently-written programs share failure modes; model families share plausibility bias and sycophancy toward existing code). Mechanical gates are the floor; cross-model review layers on top.
 - Capsule `docs/` + LOG entries exist to make the *pointer* trail cheap for a foreign model — decisions with why, evidence locations, known traps. Logs are an index, capped and pruned like the kit's wiki ledgers (append-only logs that grow unbounded are their own rot).
 
-## 9. Brownfield path (Register et al.)
+## 9. Brownfield path (the reference app et al.)
 
 - Shrink-only ratchet (ArchUnit FreezingArchRule design): tool-generated violations file committed adjacent to the capsule; new violations fail; fixed ones auto-removed. **A ratchet without a drain plan is permanent amnesty** (packwerk) — every baseline entry gets an owner or a deletion date.
 - Boundaries are cut along how code *runs*, not how it reads (packwerk's aspirational-graph failure). The diagnostic step is generating the real dependency graph first and letting it argue.
